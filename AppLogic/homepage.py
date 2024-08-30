@@ -4,12 +4,12 @@ from tkinter import ttk, filedialog
 
 from PIL import ImageTk
 
-from AppLogic.caption_generation import generateCaption
-from AppLogic.image_generation import generateImage
+from AppLogic.caption_generation import generate_caption
+from AppLogic.image_generation import generate_image
 
 
 class SocialMediaApp:
-    def __init__(self,root):
+    def __init__(self, root):
         self.root = root
         self.root.title("Social Media Content Production")
         self.root.state('zoomed')
@@ -19,37 +19,36 @@ class SocialMediaApp:
 
         self.create_home_page()
 
-    def submit_form(self,entry_name, entry_field):
+    def submit_form(self, entry_name, entry_field):
         name = entry_name.get()
         field = entry_field.get()
         self.update_progress_bar(10)
         # Display the information or process it as needed
-        caption = generateCaption(name,field)
+        caption = generate_caption(name, field)
         self.update_progress_bar(40)
 
-        img = generateImage(self,caption,name,field)
+        img = generate_image(self, caption, name, field)
         self.update_progress_bar(100)
 
-        self.showPost(caption,img)
+        self.show_post(caption, img)
 
     def update_progress_bar(self, value):
         self.progress_bar['value'] = value
         self.root.update_idletasks()
 
     def setup_styles(self):
-            soft_blue = "#8FAADC"
-            dark_blue = "#1C3F94"
-            white = "#FFFFFF"
-            black = "#000000"
+        soft_blue = "#8FAADC"
+        dark_blue = "#1C3F94"
+        white = "#FFFFFF"
+        black = "#000000"
 
-            self.style.configure('TFrame', background=soft_blue)
-            self.style.configure('TLabel', background=soft_blue, foreground=white, font=('Helvetica', 14))
-            self.style.configure('TButton', background=dark_blue, foreground=black, font=('Helvetica', 12), padding=10, relief="flat")
-            self.style.map('TButton', background=[('active', dark_blue)], foreground=[('active', white)])
+        self.style.configure('TFrame', background=soft_blue)
+        self.style.configure('TLabel', background=soft_blue, foreground=white, font=('Helvetica', 14))
+        self.style.configure('TButton', background=dark_blue, foreground=black, font=('Helvetica', 12), padding=10,
+                             relief="flat")
+        self.style.map('TButton', background=[('active', dark_blue)], foreground=[('active', white)])
 
-            self.root.configure(background=soft_blue)
-
-
+        self.root.configure(background=soft_blue)
 
     def create_home_page(self):
         # Create a frame for better control
@@ -94,7 +93,7 @@ class SocialMediaApp:
         self.root.geometry(f"{frame_width + 40}x{frame_height + 100}")
         self.root.mainloop()
 
-    def showPost(self, caption, img):
+    def show_post(self, caption, img):
         # Create a new window
         new_window = tk.Toplevel(self.root)
         new_window.title("Generated Post")
