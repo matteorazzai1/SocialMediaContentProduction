@@ -10,7 +10,6 @@ def generateImage(self,caption,field, firm):
     pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
     self.update_progress_bar(60)
 
-
     # Define a prompt
     prompt = "An image related to this caption"+caption
 

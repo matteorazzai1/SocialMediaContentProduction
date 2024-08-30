@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Post with AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <img src="{{ url_for('static', filename='images/wand.png') }}" alt="Magic Wand" class="wand-icon">
+            <h1>Create a new post with AI!</h1>
+        </div>
+        <div class="panel">
+            <input type="text" id="company-name" class="input-field" placeholder="Company name">
+            <input type="text" id="main-field" class="input-field" placeholder="Main field">
+            <button id="submit-button" class="submit-button" disabled>Submit</button>
+            <p id="processing-message" style="display: none;">Processing...</p>
+        </div>
+        <!-- Nuovo pannello per il post -->
+        <div id="new-post-panel" class="new-post-panel" style="display: none;">
+            <img id="post-image" class="post-image" alt="Post Image">
+            <p id="post-text" class="post-caption"></p>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

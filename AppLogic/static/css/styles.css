@@ -1,0 +1,124 @@
+/* Stili generali */
+html, body {
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'Garamond', serif;
+    background-color: #0a2740; /* Blu notte per lo sfondo */
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Occupa tutta la larghezza della finestra */
+}
+
+/* Contenitore principale */
+.container {
+    text-align: center;
+    color: white;
+    max-width: 350px; /* Larghezza massima per la centratura */
+    width: 100%; /* Occupa tutta la larghezza possibile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Titolo */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.wand-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 36px;
+    margin: 0;
+    color: #e0f7fa; /* Blu chiaro per il testo del titolo */
+}
+
+/* Pannello di inserimento */
+.panel {
+    background: linear-gradient(to top, #1f4e79, #3d8bbd); /* Gradiente di blu medio e blu chiaro */
+    border-radius: 15px;
+    padding: 30px; /* Aumentato il padding */
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    max-width: 350px; /* Larghezza massima per il pannello */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
+}
+
+/* Campi di input */
+.input-field {
+    width: 100%; /* Larghezza al 100% del pannello */
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #d0e7f9, #a1cce9); /* Gradiente di blu molto chiaro */
+    color: #0a2740; /* Blu notte per il testo */
+    font-size: 18px;
+    margin-bottom: 15px; /* Spazio tra i campi */
+}
+
+/* Pulsante di invio */
+.submit-button {
+    background: linear-gradient(to top, #005082, #00a9e0); /* Gradiente blu scuro al blu brillante */
+    border: 2px solid #00a9e0; /* Bordi blu brillante */
+    border-radius: 12px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Pulsante disabilitato */
+.submit-button:disabled {
+    background: #a3b4c7; /* Azzurro-grigio per il pulsante disabilitato */
+    border: 2px solid #a3b4c7;
+    cursor: not-allowed;
+}
+
+.submit-button:hover {
+    background: linear-gradient(to bottom, #00a9e0, #005082); /* Inverti gradiente al passaggio del mouse */
+}
+
+/* Pannello del nuovo post */
+.new-post-panel {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    max-width: 350px; /* Larghezza massima per il pannello */
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Immagine del post */
+.post-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Didascalia del post */
+.post-caption {
+    font-size: 16px;
+    color: #333; /* Testo grigio scuro per contrasto */
+    margin: 0;
+}
