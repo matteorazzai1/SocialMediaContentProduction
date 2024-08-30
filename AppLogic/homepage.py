@@ -4,8 +4,8 @@ from tkinter import ttk, filedialog
 
 from PIL import ImageTk
 
-from AppLogic.captionGeneration import generateCaption
-from AppLogic.imageGeneration import generateImage
+from AppLogic.caption_generation import generateCaption
+from AppLogic.image_generation import generateImage
 
 
 class SocialMediaApp:

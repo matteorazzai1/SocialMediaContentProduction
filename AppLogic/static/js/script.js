@@ -41,7 +41,7 @@ submitButton.addEventListener("click", function () {
 
         newPostPanel.style.display = "block";
         postText.textContent = data.text;
-        postImage.src = data.image_url;
+        postImage.src = data.image;
 
         companyNameInput.value = "";
         mainFieldInput.value = "";

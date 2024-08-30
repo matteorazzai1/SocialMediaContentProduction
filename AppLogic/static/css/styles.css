@@ -79,11 +79,7 @@ h1 {
 .submit-button:disabled {
     background: #a3b4c7;
     border: 2px solid #a3b4c7;
-    cursor: not-allowed;
-}
-
-.submit-button:hover {
-    background: linear-gradient(to bottom, #00a9e0, #005082);
+    cursor: default;
 }
 
 .new-post-panel {
