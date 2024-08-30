@@ -1,4 +1,3 @@
-/* Stili generali */
 html, body {
     margin: 0;
     padding-top: 20px;
@@ -11,21 +10,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; /* Occupa tutta la larghezza della finestra */
+    width: 100%;
 }
 
-/* Contenitore principale */
 .container {
     text-align: center;
     color: white;
-    max-width: 350px; /* Larghezza massima per la centratura */
-    width: 100%; /* Occupa tutta la larghezza possibile */
+    max-width: 350px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Titolo */
 .title {
     display: flex;
     align-items: center;
@@ -42,38 +39,35 @@ body {
 h1 {
     font-size: 36px;
     margin: 0;
-    color: #e0f7fa; /* Blu chiaro per il testo del titolo */
+    color: #e0f7fa;
 }
 
-/* Pannello di inserimento */
 .panel {
-    background: linear-gradient(to top, #1f4e79, #3d8bbd); /* Gradiente di blu medio e blu chiaro */
+    background: linear-gradient(to top, #1f4e79, #3d8bbd);
     border-radius: 15px;
-    padding: 30px; /* Aumentato il padding */
-    width: 100%; /* Occupa tutta la larghezza del contenitore */
-    max-width: 350px; /* Larghezza massima per il pannello */
+    padding: 30px;
+    width: 100%;
+    max-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Campi di input */
 .input-field {
-    width: 100%; /* Larghezza al 100% del pannello */
+    width: 100%;
     padding: 15px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(to bottom, #d0e7f9, #a1cce9); /* Gradiente di blu molto chiaro */
-    color: #0a2740; /* Blu notte per il testo */
+    background: linear-gradient(to bottom, #d0e7f9, #a1cce9);
+    color: #0a2740;
     font-size: 18px;
-    margin-bottom: 15px; /* Spazio tra i campi */
+    margin-bottom: 15px;
 }
 
-/* Pulsante di invio */
 .submit-button {
-    background: linear-gradient(to top, #005082, #00a9e0); /* Gradiente blu scuro al blu brillante */
-    border: 2px solid #00a9e0; /* Bordi blu brillante */
+    background: linear-gradient(to top, #005082, #00a9e0);
+    border: 2px solid #00a9e0;
     border-radius: 12px;
     color: white;
     padding: 10px 20px;
@@ -82,26 +76,24 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-/* Pulsante disabilitato */
 .submit-button:disabled {
-    background: #a3b4c7; /* Azzurro-grigio per il pulsante disabilitato */
+    background: #a3b4c7;
     border: 2px solid #a3b4c7;
     cursor: not-allowed;
 }
 
 .submit-button:hover {
-    background: linear-gradient(to bottom, #00a9e0, #005082); /* Inverti gradiente al passaggio del mouse */
+    background: linear-gradient(to bottom, #00a9e0, #005082);
 }
 
-/* Pannello del nuovo post */
 .new-post-panel {
     background-color: white;
     border-radius: 15px;
     padding: 20px;
-    width: 100%; /* Occupa tutta la larghezza del contenitore */
-    max-width: 350px; /* Larghezza massima per il pannello */
+    width: 100%;
+    max-width: 350px;
     margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombra per profondità */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -109,16 +101,14 @@ h1 {
     position: relative;
 }
 
-/* Immagine del post */
 .post-image {
     width: 100%;
     border-radius: 10px;
     margin-bottom: 10px;
 }
 
-/* Didascalia del post */
 .post-caption {
     font-size: 16px;
-    color: #333; /* Testo grigio scuro per contrasto */
+    color: #333;
     margin: 0;
 }
