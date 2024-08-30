@@ -11,7 +11,7 @@ key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 DB_CONNECTION: str = "postgresql://postgres.cjiypdsqhtnfdzshiral:3zFR6lPgV4Jp3PUJ@aws-0-eu-central-2.pooler.supabase.com:6543/postgres"
 
 
-def insertData():
+def insert_data():
     vx = vecs.create_client(DB_CONNECTION)
     vx.delete_collection(name='posts')
     docs=vx.get_or_create_collection('posts',dimension=384)
@@ -31,7 +31,7 @@ def insertData():
         embedding = model.encode(row["status_message"])
         docs.upsert([(index,embedding,{"message": row["status_message"]})])
 
-def retrieveKMostSimilarPost(firm_name,field_name):
+def retrieve_K_most_similar_post(firm_name,field_name):
 
     vx = vecs.create_client(DB_CONNECTION)
     docs = vx.get_or_create_collection(name="posts", dimension=384)
@@ -45,9 +45,9 @@ def retrieveKMostSimilarPost(firm_name,field_name):
         include_metadata=True
     )
 
-    return handleResults(results)
+    return handle_results(results)
 
-def handleResults(results):
+def handle_results(results):
 
     string = ""
 
