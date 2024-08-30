@@ -1,3 +1,5 @@
+from groq import Groq
+
 from AppLogic.db_manager import retrieve_K_most_similar_post
 
 

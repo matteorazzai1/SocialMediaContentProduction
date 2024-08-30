@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request
-# from caption_generation import generate_caption
-from caption_generation import generate_caption_example
-# from image_generation import generate_image_example
-from image_generation import generate_image_example
+from caption_generation import generate_caption
+#from caption_generation import generate_caption_example
+from image_generation import generate_image
+#from image_generation import generate_image_example
 
 app = Flask(__name__)
 
@@ -19,12 +19,12 @@ def create_post():
     main_field = request.json.get('main_field')
 
     # Generate caption and image
-    # text = generate_caption(company_name, main_field)
-    # image = generate_image(text, main_field, company_name)
+    text = generate_caption(company_name, main_field)
+    image = generate_image(text, main_field, company_name)
 
     # Example code
-    text = generate_caption_example()
-    image = generate_image_example()
+    #text = generate_caption_example()
+    #image = generate_image_example()
 
     new_post = {
         "text": text,
