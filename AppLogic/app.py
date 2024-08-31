@@ -1,8 +1,6 @@
 from flask import Flask, render_template, jsonify, request
-# from caption_generation import generate_caption
 # from caption_generation import generate_caption_example
 from caption_generation import generate_caption, generate_caption_adv
-# from image_generation import generate_image_example
 # from image_generation import generate_image_example
 from image_generation import generate_image, generate_image_adv
 
@@ -20,7 +18,7 @@ def create_post():
     company_name = request.json.get('company_name')
     main_field = request.json.get('main_field')
     setting_button = request.json.get('setting_button')
-    prompt_values = request.json.get("prompt-values")
+    prompt_values = request.json.get("prompt_values")
 
     image_prompt = prompt_values.get('image_prompt', {})
     text_prompt = prompt_values.get('text_prompt', {})
@@ -51,4 +49,4 @@ def create_post():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5002, debug=True)
