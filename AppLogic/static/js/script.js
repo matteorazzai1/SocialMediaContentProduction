@@ -1,9 +1,13 @@
+const container = document.getElementById("main-container")
+const panel = document.getElementById("main-panel")
 const companyNameInput = document.getElementById("company-name");
 const mainFieldInput = document.getElementById("main-field");
 const submitButton = document.getElementById("submit-button");
 const newPostPanel = document.getElementById("new-post-panel");
 const postImage = document.getElementById("post-image");
 const postText = document.getElementById("post-text");
+const advancedSettingButton = document.getElementById("advanced-settings")
+const advancedSettingPanel = document.getElementById("advanced-panel")
 
 function toggleSubmitButton() {
     if (companyNameInput.value.trim() !== "" && mainFieldInput.value.trim() !== "") {
@@ -46,6 +50,9 @@ submitButton.addEventListener("click", function () {
         companyNameInput.value = "";
         mainFieldInput.value = "";
 
+        advancedSettingPanel.style.display = "none"
+        advancedSettingButton.checked = false
+
         submitButton.disabled = true;
     })
     .catch(error => {
@@ -53,3 +60,20 @@ submitButton.addEventListener("click", function () {
         processingMessage.textContent = "Error during post creation";
     });
 });
+
+advancedSettingButton.addEventListener("click", function() {
+
+    // Case "Advanced Settings" not selected
+    if(advancedSettingPanel.style.display != "flex") {
+        advancedSettingPanel.style.display = "flex";
+        container.style.width = "80%";
+        container.style.maxWidth = "80%";
+        panel.style.maxWidth = "100%";
+    }
+    else {
+        advancedSettingPanel.style.display = "none";
+        container.style.width = "100%";
+        container.style.maxWidth = "350px";
+        panel.style.maxWidth = "350px";
+    }
+})
