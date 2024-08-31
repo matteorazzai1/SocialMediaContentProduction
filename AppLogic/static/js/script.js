@@ -17,6 +17,47 @@ function toggleSubmitButton() {
     }
 }
 
+function getImagePromptFields() {
+    // Recupera i valori degli input per l'immagine
+    const imageType = document.getElementById("image-type").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const environment = document.getElementById("environment").value.trim();
+    const light = document.getElementById("light").value.trim();
+    const color = document.getElementById("color").value.trim();
+    const pointView = document.getElementById("point-view").value.trim();
+    const artStyle = document.getElementById("art-style").value.trim();
+    const photoType = document.getElementById("photo-type").value.trim();
+
+    // Costruisce un oggetto con tutti i campi dell'immagine
+    return {
+        image_type: imageType,
+        subject: subject,
+        environment: environment,
+        light: light,
+        color: color,
+        point_view: pointView,
+        art_style: artStyle,
+        photo_type: photoType
+    };
+}
+
+function getTextPromptFields() {
+    // Recupera i valori degli input per il testo
+    const goal = document.getElementById("goal").value.trim();
+    const target = document.getElementById("target").value.trim();
+    const style = document.getElementById("style").value.trim();
+    const keywords = document.getElementById("keywords").value.trim();
+
+    // Costruisce un oggetto con tutti i campi del testo
+    return {
+        goal: goal,
+        target: target,
+        style: style,
+        keywords: keywords
+    };
+}
+
+
 companyNameInput.addEventListener("input", toggleSubmitButton);
 mainFieldInput.addEventListener("input", toggleSubmitButton);
 
@@ -30,6 +71,15 @@ submitButton.addEventListener("click", function () {
     // Get input values
     const companyName = companyNameInput.value;
     const mainField = mainFieldInput.value;
+    const advancedSettingButtonValue = advancedSettingButton.checked;
+    const imageFields = getImagePromptFields();
+    const textFields = getTextPromptFields();
+
+    const promptValues = {
+        image_prompt: imageFields,
+        text_prompt: textFields
+    };
+
 
     // POST request at Flask server
     fetch('/api/create_post', {
@@ -37,7 +87,9 @@ submitButton.addEventListener("click", function () {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ company_name: companyName, main_field: mainField })
+        body: JSON.stringify({ company_name: companyName, main_field: mainField,
+            setting_button: advancedSettingButtonValue, prompt_values: promptValues
+            })
     })
     .then(response => response.json())
     .then(data => {
