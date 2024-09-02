@@ -1,8 +1,10 @@
 from flask import Flask, render_template, jsonify, request
+
 # from caption_generation import generate_caption_example
 from caption_generation import generate_caption, generate_caption_adv
 # from image_generation import generate_image_example
 from image_generation import generate_image, generate_image_adv
+
 
 app = Flask(__name__)
 
@@ -24,10 +26,11 @@ def create_post():
     text_prompt = prompt_values.get('text_prompt', {})
 
     # Generate caption and image
-    # text = generate_caption(company_name, main_field)
-    # image = generate_image(text, main_field, company_name)
+    text = generate_caption(company_name, main_field)
+    image = generate_image(text, main_field, company_name)
 
     # Example code
+
     # text = generate_caption_example()
     # image = generate_image_example()
 
@@ -39,6 +42,7 @@ def create_post():
         print("CASO BASE")
         text = generate_caption(company_name, main_field)
         image = generate_image(text, main_field, company_name)
+
 
     new_post = {
         "text": text,
