@@ -28,6 +28,31 @@ def generate_caption(firm_name,field_name):
     return caption
 
 
+
+def generate_caption_adv(firm_name, field_name, text_prompt):
+    goal = text_prompt.get('goal', '')
+    target = text_prompt.get('target', '')
+    style = text_prompt.get('style', '')
+    keywords = text_prompt.get('keywords', '')
+
+    prompt_parts = [
+        f"Can you suggest me a caption for a post related to" + field_name + " for my firm called" + firm_name + "?"]
+
+    if goal:
+        prompt_parts.append(f"The goal of the post is: {goal}.")
+    if target:
+        prompt_parts.append(f"The target audience is: {target}.")
+    if style:
+        prompt_parts.append(f"The tone of the post should be: {style}.")
+    if keywords:
+        prompt_parts.append(f"Include the following messages or keywords: {keywords}.")
+
+    text_prompt_str = " ".join(prompt_parts)
+
+    caption = perform_request(text_prompt_str)
+
+    return caption
+
 #def generate_actions(df,index_name):
 #    for i, message in df.iterrows():
 #        yield {
@@ -69,6 +94,7 @@ def generate_caption(firm_name,field_name):
 #    print(retrieved_messages)
 #    return retrieved_messages
 #
+
 
 
 def generate_caption_example():

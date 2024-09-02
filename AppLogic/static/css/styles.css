@@ -108,3 +108,24 @@ h1 {
     color: #333;
     margin: 0;
 }
+
+/* Impostazioni avanzate */
+.setting-div {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.advanced-panel {
+    width: 100%;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.col {
+    width: 100%;
+}
+
+.adv-input {
+    width: 80%
+}
