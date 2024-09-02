@@ -23,7 +23,7 @@ def perform_request(prompt):
 def generate_caption(firm_name,field_name):
 
     caption = perform_request(f"Can you suggest me a caption for a post related to" + field_name + " for my firm called" + firm_name + "?"
-                            "But not a list, a single caption that present the field and the firm in the best way possible, without talking about the caption, I want only the caption in response from you"
+                            "But not a list, a single caption that present the field and the firm in the best way possible, I don't want 'Here is your caption' and then the caption, I want directly the caption in response from you"
                             "And these are some post example:" + retrieve_K_most_similar_post(firm_name, field_name))
     return caption
 
