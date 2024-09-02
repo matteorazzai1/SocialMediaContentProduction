@@ -7,18 +7,45 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div id="main-container" class="container">
         <div class="title">
             <img src="{{ url_for('static', filename='images/wand.png') }}" alt="Magic Wand" class="wand-icon">
             <h1>Create a new post with AI!</h1>
         </div>
-        <div class="panel">
+        <div id="main-panel" class="panel">
             <input type="text" id="company-name" class="input-field" placeholder="Company name">
             <input type="text" id="main-field" class="input-field" placeholder="Main field">
+
+            <div class="setting-div">
+                <label>
+                    <input type="checkbox" id="advanced-settings"> Advanced Settings
+                </label>
+            </div>
+
+            <div id="advanced-panel" class="advanced-panel">
+                <div class="col">
+                    <h3>Image prompt</h3>
+                    <input type="text" id="image-type" class="input-field adv-input" placeholder="Image type: Photo, Painting...">
+                    <input type="text" id="subject" class="input-field adv-input" placeholder="Subject description">
+                    <input type="text" id="environment" class="input-field adv-input" placeholder="Landscape, environment, view, background...">
+                    <input type="text" id="light" class="input-field adv-input" placeholder="Lighting">
+                    <input type="text" id="color" class="input-field adv-input" placeholder="Color scheme">
+                    <input type="text" id="point-view" class="input-field adv-input" placeholder="Point of view, angle or perspective">
+                    <input type="text" id="art-style" class="input-field adv-input" placeholder="Art style if it's a painting">
+                    <input type="text" id="photo-type" class="input-field adv-input" placeholder="Photo type and/or lens if it's a photo">
+                </div>
+                <div class="col">
+                    <h3>Text prompt</h3>
+                    <input type="text" id="goal" class="input-field adv-input" placeholder="Goal of the post">
+                    <input type="text" id="target" class="input-field adv-input" placeholder="Target Audience">
+                    <input type="text" id="style" class="input-field adv-input" placeholder="Style or tone">
+                    <input type="text" id="keywords" class="input-field adv-input" placeholder="Keywords">
+                </div>
+            </div>
+
             <button id="submit-button" class="submit-button" disabled>Submit</button>
             <p id="processing-message" style="display: none;">Processing...</p>
         </div>
-        <!-- Nuovo pannello per il post -->
         <div id="new-post-panel" class="new-post-panel" style="display: none;">
             <img id="post-image" class="post-image" alt="Post Image">
             <p id="post-text" class="post-caption"></p>
