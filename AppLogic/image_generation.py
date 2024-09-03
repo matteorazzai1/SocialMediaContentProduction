@@ -1,5 +1,8 @@
-from diffusers import StableDiffusionPipeline
+import base64
+
+from diffusers import StableDiffusionPipeline, StableDiffusionImg2ImgPipeline
 import torch
+from torchvision.transforms import ToTensor
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from PIL import Image
 from io import BytesIO
@@ -12,6 +15,10 @@ import clip
 from transformers import CLIPProcessor, CLIPModel
 import os
 import numpy as np
+from urllib.parse import quote
+import io
+import base64
+
 
 def generate_image_example():
     image_url = "/static/images/example.jfif"
@@ -20,14 +27,58 @@ def generate_image_example():
 
 def load_images_from_folder(folder_path):
     images = []
+    paths = []
     for filename in os.listdir(folder_path):
-        img_path = os.path.join(folder_path, filename)
+        img_path = folder_path + "/" + filename
+        #print(img_path)
         try:
             with Image.open(img_path) as img:
                 images.append(img.copy())  # Copy to avoid potential issues with lazy loading
+                paths.append(img_path)
         except Exception as e:
             print(f"Error loading image {filename}: {e}")
-    return images
+    return images,paths
+
+def upload_image(path_locale,field,firm):
+
+    # Replace with your actual values
+    token = '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'
+    owner = 'matteorazzai1'
+    repo = 'photoHandling'
+    path = 'image_'+firm+'.jpg'
+    branch = 'main'
+    image_path = path_locale
+
+    # Read and encode image
+    with open(image_path, 'rb') as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode()
+
+    # Prepare request data
+    data = {
+        'message': 'Add image',
+        'content': encoded_image
+    }
+
+    # Make the API request
+    response = requests.put(
+        f'https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}',
+        headers={
+            'Authorization': f'token {token}',
+            'Accept': 'application/vnd.github.v3+json'
+        },
+        json=data
+    )
+
+    # Check response status
+    if response.status_code == 201:
+        print('Image uploaded successfully.')
+        # Construct the URL
+        url = f'https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}'
+        print('Image URL:', url)
+        return url
+    else:
+        print('Failed to upload image:', response.json())
+        return None
 
 
 
@@ -37,16 +88,10 @@ def retrieve_init_image(caption):
     model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
-    # Define the transform
-    transform = transforms.Compose([
-        transforms.ToTensor()
-    ])
-    
     image_folder_path = "../dataset/data_image"
 
     # Load and preprocess images
-    images = load_images_from_folder(image_folder_path)
-
+    images,paths = load_images_from_folder(image_folder_path)
 
     text_inputs = processor(text=caption, return_tensors="pt").input_ids.to(device)
 
@@ -56,8 +101,12 @@ def retrieve_init_image(caption):
 
     with torch.no_grad():
         # Encode images and text
+        print(image_inputs.shape)
+        print(text_inputs.shape)
         image_features = model.get_image_features(pixel_values=image_inputs)
+        print(image_features.shape)
         text_features = model.get_text_features(input_ids=text_inputs)
+        print(text_features.shape)
 
         # Compute similarity
         image_features = torch.nn.functional.normalize(image_features, p=2, dim=-1)
@@ -68,35 +117,37 @@ def retrieve_init_image(caption):
         probs = similarity.softmax(dim=-1).cpu().numpy()
 
     images[np.argmax(probs[0])].show()
-    return images[np.argmax(probs[0])]
+    return paths[np.argmax(probs[0])]
 
 
 def generate_image(caption, field, firm):
 
-    init_image=retrieve_init_image(caption)
+    init_image_path = retrieve_init_image(caption)
+    print(init_image_path)
 
-    # Load the reference image
-    #init_image_path = "../generated_image/generated_image.png"
-    #init_image = Image.open(init_image_path).convert("RGB")
-    #init_image = init_image.resize((512, 512))
+    init_image_url = upload_image(init_image_path,field,firm)
+    print(init_image_url)
 
     # Load the pre-trained Stable Diffusion model
     model_id = "CompVis/stable-diffusion-v1-4"
-    pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+    pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
-    #self.update_progress_bar(60)
 
     # Define a prompt
-    prompt = "An image related to this caption" + caption
+    prompt = "An image related to this caption: " + caption
 
-    # Generate an image using the init image
-    strength = 0.8  # Control how much the init image influences the final output (0-1 range)
-    image = pipe(prompt=prompt, init_image=init_image, strength=strength).images[0]
-    #self.update_progress_bar(80)
+    response = requests.get(init_image_url)
+    init_image = Image.open(BytesIO(response.content)).convert("RGB")
+    init_image = init_image.resize((768, 512))
+
+    #prompt = "A group of people doing trekking"
+
+    images = pipe(prompt=prompt, image=init_image, strength=0.75, guidance_scale=7.5).images
+    #images[0].save("mountain.png")
 
     # Save the generated image
     URL = "static/images/generated_image_" + firm + "_" + field + ".png"
-    image.save(URL)
+    images[0].save(URL)
 
     return URL
 
@@ -104,20 +155,24 @@ def generate_image(caption, field, firm):
 
 
 def generate_image_adv(caption, field, firm, image_prompt):
+
+    init_image = retrieve_init_image(caption)
+
     # Load the pre-trained Stable Diffusion model
     model_id = "CompVis/stable-diffusion-v1-4"  # or another model variant
-    pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+    pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
 
     # Define a prompt
     prompt = create_image_prompt(image_prompt)
 
     # Generate an image
-    image = pipe(prompt).images[0]
+    strength = 0.8  # Control how much the init image influences the final output (0-1 range)
+    image = pipe(prompt=prompt, init_image=Image.open(init_image), strength=strength).images[0]
 
     # Save the generated image
     image_url = "static/images/generated_image_" + firm + "_" + field + ".png"
-    image.save()
+    image.save(image_url)
 
     return image_url
 
