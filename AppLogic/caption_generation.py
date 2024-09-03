@@ -20,16 +20,16 @@ def perform_request(prompt):
     )
     return chat_completion.choices[0].message.content
 
-def generate_caption(firm_name,field_name):
+#def generate_caption(firm_name,field_name):
+#
+#    caption = perform_request(f"Can you suggest me a caption for a post related to" + field_name + " for my firm called" + firm_name + "?"
+#                            "But not a list, a single caption that present the field and the firm in the best way possible, I don't want 'Here is your caption' and then the caption, I want directly the caption in response from you"
+#                            "And these are some post example:" + retrieve_K_most_similar_post(firm_name, field_name))
+#    return caption
 
-    caption = perform_request(f"Can you suggest me a caption for a post related to" + field_name + " for my firm called" + firm_name + "?"
-                            "But not a list, a single caption that present the field and the firm in the best way possible, I don't want 'Here is your caption' and then the caption, I want directly the caption in response from you"
-                            "And these are some post example:" + retrieve_K_most_similar_post(firm_name, field_name))
-    return caption
 
 
-
-def generate_caption_adv(firm_name, field_name, text_prompt):
+def generate_caption(firm_name, field_name, text_prompt):
     goal = text_prompt.get('goal', '')
     target = text_prompt.get('target', '')
     style = text_prompt.get('style', '')
@@ -47,7 +47,9 @@ def generate_caption_adv(firm_name, field_name, text_prompt):
     if keywords:
         prompt_parts.append(f"Include the following messages or keywords: {keywords}.")
 
-    text_prompt_str = " ".join(prompt_parts)
+    text_prompt_str = " ".join(prompt_parts)+("But I don't want a list, I don't want 'Here is your caption' and then "
+                                              "the caption, I want directly the caption in response from you."
+                                              "And these are some post example:") + retrieve_K_most_similar_post(firm_name, field_name)
 
     caption = perform_request(text_prompt_str)
 
