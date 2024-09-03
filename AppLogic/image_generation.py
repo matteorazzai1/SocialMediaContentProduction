@@ -93,7 +93,7 @@ def retrieve_init_image(caption):
     # Load and preprocess images
     images,paths = load_images_from_folder(image_folder_path)
 
-    text_inputs = processor(text=caption, return_tensors="pt").input_ids.to(device)
+    text_inputs = processor(text=caption[:77], return_tensors="pt").input_ids.to(device)
 
     # Preprocess the images
     image_inputs = torch.stack(
@@ -101,12 +101,12 @@ def retrieve_init_image(caption):
 
     with torch.no_grad():
         # Encode images and text
-        print(image_inputs.shape)
-        print(text_inputs.shape)
+        #print(image_inputs.shape)
+        #print(text_inputs.shape)
         image_features = model.get_image_features(pixel_values=image_inputs)
-        print(image_features.shape)
+        #print(image_features.shape)
         text_features = model.get_text_features(input_ids=text_inputs)
-        print(text_features.shape)
+        #print(text_features.shape)
 
         # Compute similarity
         image_features = torch.nn.functional.normalize(image_features, p=2, dim=-1)
@@ -123,10 +123,10 @@ def retrieve_init_image(caption):
 def generate_image(caption, field, firm):
 
     init_image_path = retrieve_init_image(caption)
-    print(init_image_path)
+    #print(init_image_path)
 
     init_image_url = upload_image(init_image_path,field,firm)
-    print(init_image_url)
+    #print(init_image_url)
 
     # Load the pre-trained Stable Diffusion model
     model_id = "CompVis/stable-diffusion-v1-4"
@@ -154,30 +154,30 @@ def generate_image(caption, field, firm):
 
 
 
-def generate_image_adv(caption, field, firm, image_prompt):
+#def generate_image_adv(caption, field, firm, image_prompt):
+#
+#    init_image = retrieve_init_image(caption)
+#
+#    # Load the pre-trained Stable Diffusion model
+#    model_id = "CompVis/stable-diffusion-v1-4"  # or another model variant
+#    pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+#    pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
+#
+#    # Define a prompt
+#    prompt = create_image_prompt(image_prompt)
+#
+#    # Generate an image
+#    strength = 0.8  # Control how much the init image influences the final output (0-1 range)
+#    image = pipe(prompt=prompt, init_image=Image.open(init_image), strength=strength).images[0]
+#
+#    # Save the generated image
+#    image_url = "static/images/generated_image_" + firm + "_" + field + ".png"
+#    image.save(image_url)
+#
+#    return image_url
 
-    init_image = retrieve_init_image(caption)
 
-    # Load the pre-trained Stable Diffusion model
-    model_id = "CompVis/stable-diffusion-v1-4"  # or another model variant
-    pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-    pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
-
-    # Define a prompt
-    prompt = create_image_prompt(image_prompt)
-
-    # Generate an image
-    strength = 0.8  # Control how much the init image influences the final output (0-1 range)
-    image = pipe(prompt=prompt, init_image=Image.open(init_image), strength=strength).images[0]
-
-    # Save the generated image
-    image_url = "static/images/generated_image_" + firm + "_" + field + ".png"
-    image.save(image_url)
-
-    return image_url
-
-
-def create_image_prompt(image_prompt):
+def create_image_prompt(caption,image_prompt):
     image_type = image_prompt.get('image_type', '')
     subject = image_prompt.get('subject', '')
     environment = image_prompt.get('environment', '')
@@ -206,6 +206,6 @@ def create_image_prompt(image_prompt):
     if photo_type:
         prompt_parts.append(f"Photo type: {photo_type}.")
 
-    image_prompt_str = " ".join(prompt_parts)
+    image_prompt_str = "An image related to this caption "+caption+"with the following characteristics:".join(prompt_parts)
     return image_prompt_str
 
