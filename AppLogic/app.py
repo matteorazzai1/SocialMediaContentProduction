@@ -26,8 +26,8 @@ def create_post():
     text_prompt = prompt_values.get('text_prompt', {})
 
     # Generate caption and image
-    text = generate_caption(company_name, main_field)
-    image = generate_image(text, main_field, company_name)
+    #text = generate_caption(company_name, main_field)
+    #image = generate_image(text, main_field, company_name)
 
     # Example code
 
