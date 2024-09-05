@@ -1,6 +1,6 @@
 from groq import Groq
 
-from AppLogic.db_manager import retrieve_K_most_similar_post
+from Utils.db_manager import retrieve_K_most_similar_post
 
 
 def perform_request(prompt):

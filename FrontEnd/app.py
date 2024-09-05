@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 
 # from caption_generation import generate_caption_example
-from caption_generation import generate_caption
+from AppLogic.caption_generation import generate_caption
 # from image_generation import generate_image_example
-from image_generation import generate_image, create_image_prompt
+from AppLogic.image_generation import generate_image, create_image_prompt
 
 app = Flask(__name__)
 
@@ -36,10 +36,10 @@ def create_post():
     # Generate caption and image (after prompt engineering changes)
     if setting_button:
         text = generate_caption(company_name, main_field, text_prompt)
-        image = generate_image(create_image_prompt(text,image_prompt), main_field, company_name)
+        image = generate_image(create_image_prompt(text, image_prompt), main_field, company_name)
     else:
         print("CASO BASE")
-        text = generate_caption(company_name, main_field)
+        text = generate_caption(company_name, main_field, text_prompt)
         image = generate_image(text, main_field, company_name)
 
 

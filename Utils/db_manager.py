@@ -5,6 +5,7 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import vecs
 from vecs import IndexMethod, IndexMeasure
+import torch
 
 url: str = "https://cjiypdsqhtnfdzshiral.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqaXlwZHNxaHRuZmR6c2hpcmFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ5NTIyNzIsImV4cCI6MjA0MDUyODI3Mn0.Bg6w5UcVLB4lM8e_1FfijZceDxCDsAijjqFYKjrqXek"
@@ -36,7 +37,10 @@ def retrieve_K_most_similar_post(firm_name,field_name):
     vx = vecs.create_client(DB_CONNECTION)
     docs = vx.get_or_create_collection(name="posts", dimension=384)
 
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    model = SentenceTransformer("all-MiniLM-L6-v2").to(device)
     embedding = model.encode(firm_name+" "+ field_name)
 
     results = docs.query(
