@@ -162,4 +162,4 @@ cython_debug/
 .idea/
 dataset/
 generated_image/
-AppLogic/static/images
+FrontEnd/static/images
