@@ -62,4 +62,3 @@ def handle_results(results):
 
 
 #insertData()
-#print(retrieveKMostSimilar("I want to upload my beatiful book collection on Internet"))
