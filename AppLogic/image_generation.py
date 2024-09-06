@@ -32,10 +32,10 @@ def load_images_from_folder(folder_path):
     paths = []
     for filename in os.listdir(folder_path):
         img_path = folder_path + "/" + filename
-        #print(img_path)
+
         try:
             with Image.open(img_path) as img:
-                images.append(img.copy())  # Copy to avoid potential issues with lazy loading
+                images.append(img.copy())
                 paths.append(img_path)
         except Exception as e:
             print(f"Error loading image {filename}: {e}")
@@ -45,7 +45,6 @@ def load_images_from_folder(folder_path):
 def upload_image(path_locale, field, firm):
     letters = string.ascii_letters + string.digits
 
-    # Replace with your actual values
     token = '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'
     owner = 'matteorazzai1'
     repo = 'photoHandling'
@@ -103,12 +102,8 @@ def retrieve_init_image(caption):
 
     with torch.no_grad():
         # Encode images and text
-        #print(image_inputs.shape)
-        #print(text_inputs.shape)
         image_features = model.get_image_features(pixel_values=image_inputs)
-        #print(image_features.shape)
         text_features = model.get_text_features(input_ids=text_inputs)
-        #print(text_features.shape)
 
         # Compute similarity
         image_features = torch.nn.functional.normalize(image_features, p=2, dim=-1)
@@ -118,16 +113,14 @@ def retrieve_init_image(caption):
         # Convert similarity to probabilities
         probs = similarity.softmax(dim=-1).cpu().numpy()
 
-    images[np.argmax(probs[0])].show()
+    #images[np.argmax(probs[0])].show()
     return paths[np.argmax(probs[0])]
 
 
 def generate_image(caption, field, firm):
     init_image_path = retrieve_init_image(field + " " + firm)
-    #print(init_image_path)
 
     init_image_url = upload_image(init_image_path, field, firm)
-    #print(init_image_url)
 
     # Load the pre-trained Stable Diffusion model
     model_id = "CompVis/stable-diffusion-v1-4"
@@ -141,8 +134,6 @@ def generate_image(caption, field, firm):
     init_image = Image.open(BytesIO(response.content)).convert("RGB")
     init_image = init_image.resize((768, 512))
 
-    #prompt = "A group of people doing trekking"
-
     images = pipe(prompt=prompt, image=init_image, strength=0.75, guidance_scale=7.5).images
 
     # Save the generated image
@@ -150,29 +141,6 @@ def generate_image(caption, field, firm):
     images[0].save(URL)
 
     return URL
-
-
-#def generate_image_adv(caption, field, firm, image_prompt):
-#
-#    init_image = retrieve_init_image(caption)
-#
-#    # Load the pre-trained Stable Diffusion model
-#    model_id = "CompVis/stable-diffusion-v1-4"  # or another model variant
-#    pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-#    pipe = pipe.to("cuda")  # Use GPU if available, otherwise use "cpu"
-#
-#    # Define a prompt
-#    prompt = create_image_prompt(image_prompt)
-#
-#    # Generate an image
-#    strength = 0.8  # Control how much the init image influences the final output (0-1 range)
-#    image = pipe(prompt=prompt, init_image=Image.open(init_image), strength=strength).images[0]
-#
-#    # Save the generated image
-#    image_url = "static/images/generated_image_" + firm + "_" + field + ".png"
-#    image.save(image_url)
-#
-#    return image_url
 
 
 def create_image_prompt(caption, image_prompt):
