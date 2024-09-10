@@ -7,6 +7,7 @@ This project aims to develop a web app that allows the user to generate a social
 
 ### Example
 ![Social media post generated using two input fields.](https://i.ibb.co/PW4jZQQ/gelato1.png)
+
 *Figure 1: Social media post example using the 2 base case input fields, with the resulted image and caption.*
 
 ## Models used
