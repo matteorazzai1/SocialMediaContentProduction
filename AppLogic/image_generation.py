@@ -42,10 +42,11 @@ def load_images_from_folder(folder_path):
     return images, paths
 
 
+#to use an image as input to Stable Diffusion, the image has to be downloaded from github, so we upload the image on a github repo to allow the download subsequently
 def upload_image(path_locale, field, firm):
     letters = string.ascii_letters + string.digits
 
-    token = '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'
+    token = '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'  #token has expired when the repo was put to public, insert a valid token here
     owner = 'matteorazzai1'
     repo = 'photoHandling'
     path = 'image_' + firm + ''.join(random.choice(letters)) + '.jpg'
