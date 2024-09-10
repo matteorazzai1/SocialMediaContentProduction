@@ -28,7 +28,6 @@ def create_post():
         text = generate_caption(company_name, main_field, text_prompt)
         image = generate_image(create_image_prompt(text, image_prompt), main_field, company_name)
     else:
-        print("CASO BASE")
         text = generate_caption(company_name, main_field, text_prompt)
         image = generate_image(text, main_field, company_name)
 
@@ -42,4 +41,4 @@ def create_post():
 
 
 if __name__ == '__main__':
-    app.run(port=5002, debug=True)
+    app.run(port=5000, debug=True)
